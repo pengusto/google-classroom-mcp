@@ -1,0 +1,44 @@
+{
+  "name": "google-classroom-mcp",
+  "version": "3.0.0-beta.1",
+  "description": "Local Google Classroom MCP for course materials, assignments, scheduled posts and file attachments",
+  "type": "module",
+  "bin": {
+    "google-classroom-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "test": "npm run build && node --test tests/*.test.js",
+    "auth": "npm run build && node auth.js",
+    "doctor": "npm run build && node auth.js --check"
+  },
+  "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "dotenv": "^16.4.5",
+    "googleapis": "^178.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.5.2"
+  },
+  "keywords": [
+    "mcp",
+    "google-classroom",
+    "education",
+    "ai",
+    "model-context-protocol",
+    "classroom-api"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pengusto/google-classroom-mcp.git"
+  },
+  "private": true,
+  "engines": {
+    "node": "^22.0.0 || ^24.0.0"
+  }
+}

@@ -1,0 +1,13 @@
+node_modules/
+credentials.json
+token.json
+.env
+*.log
+.DS_Store
+
+.env.*
+!.env.example
+credentials*.json
+token*.json*
+*.pem
+*.key
