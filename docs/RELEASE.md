@@ -4,7 +4,7 @@ The package version `3.0.0-beta.1` identifies the development line. `private: tr
 
 ## Verified locally during preparation
 
-- Fresh `npm ci` succeeds in an isolated checkout.
+- Fresh `bun ci` succeeds in an isolated checkout; the application runtime remains Node.js.
 - Sixteen offline tests pass on Node 22 and Node 24, including stdio startup outside the checkout, invalid inputs, pagination, scheduled drafts, upload bytes and token refresh persistence.
 - A read-only MCP call against Google returned a course page and a continuation token using the existing local OAuth setup. This does not prove fresh browser consent or write behavior.
 - Gitleaks 8.30.1 scanned the existing Git history without findings. Its downloaded archive checksum was verified; final staged content must also pass before push.
@@ -30,7 +30,7 @@ GitHub detachment is complete: this repository is standalone, its MIT license is
 
 ## Dependency review
 
-The two moderate npm audit entries (`uuid` and dependent `gaxios`) represent [GHSA-w5hq-g745-h8pq](https://github.com/advisories/GHSA-w5hq-g745-h8pq). The advisory affects v3/v5/v6 with caller-provided output buffers. The inspected gaxios 6.7.1 callers in local-auth's dependency chain use `uuid.v4()` without an output buffer for multipart boundaries. No affected call was found in those callers or this project's source.
+The moderate Bun audit finding (`uuid`, reached through `gaxios`) represents [GHSA-w5hq-g745-h8pq](https://github.com/advisories/GHSA-w5hq-g745-h8pq). The advisory affects v3/v5/v6 with caller-provided output buffers. The inspected gaxios 6.7.1 callers in local-auth's dependency chain use `uuid.v4()` without an output buffer for multipart boundaries. No affected call was found in those callers or this project's source.
 
 This is a scoped code-path assessment, not a claim that the dependency is patched. Keep the audit warnings visible and reassess when local-auth or its dependency tree changes. Do not force an incompatible transitive major version merely to hide the warning.
 

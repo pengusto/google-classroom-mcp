@@ -10,9 +10,9 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsc --watch",
-    "test": "npm run build && node --test tests/*.test.js",
-    "auth": "npm run build && node auth.js",
-    "doctor": "npm run build && node auth.js --check"
+    "test": "bun run build && node --test tests/*.test.js",
+    "auth": "bun run build && node auth.js",
+    "doctor": "bun run build && node auth.js --check"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
@@ -38,6 +38,7 @@
     "url": "https://github.com/pengusto/google-classroom-mcp.git"
   },
   "private": true,
+  "packageManager": "bun@1.4.2",
   "engines": {
     "node": "^22.0.0 || ^24.0.0"
   }
