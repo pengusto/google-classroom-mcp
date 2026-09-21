@@ -78,14 +78,14 @@ export class GoogleClassroomServer {
                 apis = await this.initApis();
             }
             catch {
-                return fail('OAuth is unavailable. Run npm run auth and check credential/token file paths and permissions.');
+                return fail('OAuth is unavailable. Run bun run auth and check credential/token file paths and permissions.');
             }
             try {
                 return await this.handleToolCall(apis.classroom, apis.drive, apis.slides, name, args);
             }
             catch (error) {
                 const status = Number(error.response?.status || error.code);
-                const reason = status === 401 ? 'OAuth expired; run npm run auth.'
+                const reason = status === 401 ? 'OAuth expired; run bun run auth.'
                     : status === 403 ? 'Access denied. Check scopes, course role and the Google project that created the post.'
                         : status === 404 ? 'Resource not found or inaccessible.'
                             : status === 400 ? 'Google rejected these arguments or this state change.'

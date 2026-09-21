@@ -17,4 +17,4 @@ Use placeholder IDs and minimal tool arguments:
 **Expected / actual behavior**
 
 **Checks**
-Did `npm test` and `npm run doctor` pass? Include only redacted error summaries.
+Did `bun run test` and `bun run doctor` pass? Include only redacted error summaries.

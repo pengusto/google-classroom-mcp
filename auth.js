@@ -37,13 +37,13 @@ async function authorize() {
 authorize().catch(error => {
   const status = Number(error.response?.status);
   const reasons = (error.response?.data?.error?.errors || []).map(item => item.reason);
-  const message = error.code === 'ENOENT' ? 'OAuth file missing. Check GOOGLE_CREDENTIALS_PATH and GOOGLE_TOKEN_PATH; run npm run auth for a missing token.'
+  const message = error.code === 'ENOENT' ? 'OAuth file missing. Check GOOGLE_CREDENTIALS_PATH and GOOGLE_TOKEN_PATH; run bun run auth for a missing token.'
     : ['EACCES', 'EPERM'].includes(error.code) ? 'OAuth file permission denied. Check access to credential/token files and their parent directory.'
     : error instanceof SyntaxError ? 'OAuth file is not valid JSON. Download Desktop credentials again or reauthorize; do not paste secrets into an issue.'
-    : error.message === 'Required OAuth scopes are missing.' ? 'Required scopes are missing. Run npm run auth and grant the listed access.'
+    : error.message === 'Required OAuth scopes are missing.' ? 'Required scopes are missing. Run bun run auth and grant the listed access.'
     : error.message === 'Desktop OAuth credentials are required.' ? 'Use a Desktop app OAuth client, not Web application credentials.'
     : reasons.includes('accessNotConfigured') || reasons.includes('serviceDisabled') ? 'Enable the requested Classroom or Drive API in the Google Cloud project belonging to your OAuth client.'
-    : status === 401 || error.response?.data?.error === 'invalid_grant' ? 'OAuth grant expired or revoked. Run npm run auth to reconnect.'
+    : status === 401 || error.response?.data?.error === 'invalid_grant' ? 'OAuth grant expired or revoked. Run bun run auth to reconnect.'
     : status === 403 ? 'Google denied access. Check enabled APIs, granted scopes, consent test-user access and Workspace administrator policy.'
     : 'Connection check failed. Check network access and Google Cloud configuration; existing tokens were preserved.';
   console.error(message);

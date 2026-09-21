@@ -3,8 +3,8 @@
 Use Node 24 LTS (see `.nvmrc`); CI also checks Node 22.
 
 ```sh
-npm ci
-npm test
+bun ci
+bun run test
 git diff --check
 ```
 
@@ -14,4 +14,4 @@ When changing a tool, update its input schema, behavior tests and README togethe
 
 A live check needs a dedicated test course and explicit authorization. Record created object IDs locally, verify results by reading them back and never bulk-delete or modify existing course content. Do not put credentials, course identifiers, student details or local evidence into commits.
 
-Dependency changes must include the lockfile, a fresh install and the relevant tests. Avoid `npm audit fix --force`. A release checklist lives in `docs/RELEASE.md`.
+Dependency changes must include the lockfile, a fresh install and the relevant tests. Run `bun audit --audit-level=high`; do not auto-fix dependency ranges as part of unrelated changes. A release checklist lives in `docs/RELEASE.md`.

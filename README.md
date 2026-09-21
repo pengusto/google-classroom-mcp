@@ -25,23 +25,23 @@ The client can find the course, inspect each page of posts and create the draft.
 
 ## Install
 
-Use Node.js 24 LTS (Node.js 22 is also supported), npm and a Google account with teacher access.
+Use Node.js 24 LTS (Node.js 22 is also supported), Bun 1.4.2 and a Google account with teacher access.
 
 ```sh
 git clone https://github.com/pengusto/google-classroom-mcp.git
 cd google-classroom-mcp
-npm ci
-npm test
+bun ci
+bun run test
 ```
 
-The build is included in `npm test`. During development, use `npm run build` or `npm run dev`.
+The build is included in `bun run test`; the tests still run under Node.js. During development, use `bun run build` or `bun run dev`.
 
 ## Connect your Google account
 
 1. Create your own Google Cloud project. Enable the **Classroom**, **Drive** and **Slides** APIs.
 2. Configure the OAuth consent screen and add your Google account as a test user if the app is in testing mode. Your Workspace administrator may restrict access.
 3. Create an OAuth client of type **Desktop app**. Save its downloaded JSON as `credentials.json` in the repository root.
-4. Run `npm run auth`. Complete consent in the browser. The local callback saves `token.json` after verifying access.
+4. Run `bun run auth`. Complete consent in the browser. The local callback saves `token.json` after verifying access.
 
 Keep both files private. They are ignored by Git. To store them outside the checkout, set `GOOGLE_CREDENTIALS_PATH` and `GOOGLE_TOKEN_PATH` to absolute paths for both authentication and the MCP process. A local `.env` can supply these variables when commands run from the repo root; clients launched elsewhere should pass them explicitly.
 
@@ -62,7 +62,7 @@ Keep both files private. They are ignored by Git. To store them outside the chec
 
 ### Diagnose setup without opening a browser
 
-Run `npm run doctor` with the same environment as your MCP client. It checks OAuth files/scopes and makes small read-only Classroom and Drive requests. It never starts a consent flow or creates posts. Errors distinguish missing files, invalid JSON, permissions, revoked access and API configuration. It does not print credential values or course content. Slides and participant access need separate checks.
+Run `bun run doctor` with the same environment as your MCP client. It checks OAuth files/scopes and makes small read-only Classroom and Drive requests. It never starts a consent flow or creates posts. Errors distinguish missing files, invalid JSON, permissions, revoked access and API configuration. It does not print credential values or course content. Slides and participant access need separate checks.
 
 Restart the MCP connection after rebuilding. The server uses stdout only for MCP messages; operational messages go to stderr.
 
@@ -132,7 +132,7 @@ When using this integration, Google Classroom may display a name as **“Unknown
 
 ## Development
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Run `npm test` and `git diff --check` before submitting changes. CI runs on Node 22 and 24 and includes a redacted Gitleaks scan. Known moderate dependency findings are tracked in release readiness; high/critical findings fail CI.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Run `bun run test` and `git diff --check` before submitting changes. CI runs on Node 22 and 24 and includes a redacted Gitleaks scan. Known moderate dependency findings are tracked in release readiness; high/critical findings fail CI.
 
 ## Migrating from 2.x
 
@@ -140,7 +140,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Run `npm test` and `git diff --check` be
 - New posts default to drafts; immediate publication is explicit.
 - Announcement patches require `updateMask` and support state/scheduling.
 - Unsupported administrative tools and inherited live tests targeting a hard-coded course were removed.
-- `npm run auth` builds before login. Only Desktop OAuth credentials are supported.
+- `bun run auth` builds before login. Only Desktop OAuth credentials are supported.
 
 No legacy response adapter is included.
 
