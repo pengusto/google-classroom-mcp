@@ -1,19 +1,36 @@
 # Google Classroom MCP
 
+## From lesson plan to Classroom draft
+
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22%20%7C%2024-339933?logo=nodedotjs&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Tools](https://img.shields.io/badge/MCP_tools-21-8A2BE2)
 [![Checks](https://github.com/pengusto/google-classroom-mcp/actions/workflows/checks.yml/badge.svg?branch=master)](https://github.com/pengusto/google-classroom-mcp/actions/workflows/checks.yml)
 
-Prepare Google Classroom materials, assignments and announcements from your MCP client. Maintained by [Pengusto](https://github.com/pengusto), this server runs locally and connects to your own Google account.
+Prepare tomorrow’s teaching materials from the MCP client you already use. Find the right Google Classroom course, check what is there, and turn your resources into assignment, material or announcement drafts before choosing when to publish.
 
-- **Prepare drafts** and publish when you are ready.
-- **Schedule posts**, change their publication time or cancel a schedule.
-- **Upload and attach files**, or read existing Google Slides.
-- **Find courses and posts** with explicit pagination and input validation.
+For **teachers and course organizers with teacher access** who want an assistant to help prepare Classroom posts. The server runs locally over **stdio**, connects to your own Google account, and exposes **21 tools** with validated inputs.
 
-**Status:** 3.0 beta development line, not yet published to npm. See [release readiness](docs/RELEASE.md) for completed checks and remaining work.
+| Teaching task | What the server provides |
+|---|---|
+| Find the right class | Course search by name or section, course details and paginated lists |
+| Prepare a session | Topics, assignment and material drafts, announcement drafts |
+| Plan publication | Publish explicitly, schedule a draft, reschedule or cancel its schedule |
+| Bring the resources | Drive uploads up to 5 MiB, file/link attachments and existing Slides data |
+
+**Status:** `3.0.0-beta.1` development line. Install from source; this version is not published to npm and the package is intentionally marked `private: true`. The GitHub repository is public. See [release readiness](docs/RELEASE.md) for recorded checks and open gates.
+
+[Quickstart](#quickstart) · [First request](#first-request-start-with-a-read) · [Tool reference](#available-tools) · [Permissions](#permissions-and-limitations) · [Development](#development)
+
+```mermaid
+flowchart LR
+    A[Your MCP client] -->|stdio| B[Local Classroom MCP]
+    B -->|Your OAuth grant| C[Google Classroom]
+    B -->|Files and presentations| D[Google Drive / Slides]
+```
+
+Your MCP client can call write tools with your account’s permissions. New posts default to drafts; publishing is available when explicitly requested.
 
 ## Example workflow
 
@@ -23,9 +40,11 @@ After setup, ask your MCP client:
 
 The client can find the course, inspect each page of posts and create the draft. To schedule it later, provide a publication date, time and timezone. Google still controls access and accepted publication dates.
 
-## Install
+## Quickstart
 
-Use Node.js 24 LTS (Node.js 22 is also supported), Bun 1.4.2 and a Google account with teacher access.
+You need Node.js 24 LTS (Node.js 22 is also checked), **Bun 1.4.2**, an MCP client that supports local stdio servers, and a Google account with teacher access. You also need a Google Cloud project where you can configure Desktop OAuth; Workspace policy may require administrator approval.
+
+### 1. Install and check locally
 
 ```sh
 git clone https://github.com/pengusto/google-classroom-mcp.git
@@ -36,7 +55,7 @@ bun run test
 
 The build is included in `bun run test`; the tests still run under Node.js. During development, use `bun run build` or `bun run dev`.
 
-## Connect your Google account
+### 2. Connect your Google account
 
 1. Create your own Google Cloud project. Enable the **Classroom**, **Drive** and **Slides** APIs.
 2. Configure the OAuth consent screen and add your Google account as a test user if the app is in testing mode. Your Workspace administrator may restrict access.
@@ -44,6 +63,10 @@ The build is included in `bun run test`; the tests still run under Node.js. Duri
 4. Run `bun run auth`. Complete consent in the browser. The local callback saves `token.json` after verifying access.
 
 Keep both files private. They are ignored by Git. To store them outside the checkout, set `GOOGLE_CREDENTIALS_PATH` and `GOOGLE_TOKEN_PATH` to absolute paths for both authentication and the MCP process. A local `.env` can supply these variables when commands run from the repo root; clients launched elsewhere should pass them explicitly.
+
+### 3. Register the server in your MCP client
+
+Adapt this configuration to your client. Replace every `/path/to/…` value with an absolute path on your machine. The example uses credentials outside the checkout; use the same paths during `bun run auth`. Launch the built JavaScript with Node, as shown here.
 
 ```json
 {
@@ -59,6 +82,20 @@ Keep both files private. They are ignored by Git. To store them outside the chec
   }
 }
 ```
+
+### First request: start with a read
+
+Restart or reconnect your MCP client, then ask:
+
+> List one page of my Classroom courses. Do not change anything. Tell me whether there are more pages.
+
+The corresponding tool call is `classroom_list_courses` with:
+
+```json
+{"pageSize": 1}
+```
+
+Expect an `items` array and a `nextPageToken` that is either a string or `null`. Once the connection works, try the [draft workflow](#example-workflow) with a course you have chosen. Read the [pagination rules](#read-every-page) before asking the client to inspect all existing posts.
 
 ### Diagnose setup without opening a browser
 
@@ -124,7 +161,15 @@ The server stores OAuth tokens locally with owner-only permissions and persists 
 
 Offline tests validate MCP behavior, request construction, upload bytes and token handling. Draft creation, scheduled-time changes, cancellation and a real file attachment have also been verified in a dedicated Google test course. Fresh Google consent, automatic publication at the scheduled time and participant file access remain separate release checks. See [docs/RELEASE.md](docs/RELEASE.md).
 
-## Known issues
+## Troubleshooting
+
+| Symptom | Next check |
+|---|---|
+| OAuth file missing or invalid | Check the absolute paths passed to both authentication and the MCP client; use downloaded Desktop credentials |
+| Access denied | Check enabled APIs, granted scopes, teacher role, consent test users and Workspace policy |
+| Expired or revoked grant | Run `bun run auth` again with the same credential and token paths |
+| Server still exposes old behavior after a change | Run `bun run build`, then restart the MCP connection |
+| A search page is empty but has a token | Continue with `pageToken`; search filters one Google page at a time |
 
 ### Name displayed as “Unknown User”
 
