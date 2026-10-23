@@ -4,6 +4,8 @@
 
 ### Breaking changes
 
+- From distributions carrying the 2026-10-24 notice, apply Pengusto Commercial License 1.0 to maintainer-authored extensions and require a separate paid agreement for their use. Preserve the original upstream MIT terms.
+
 - Return bounded `{items, nextPageToken}` pages from list and course-search tools instead of arrays. Clients must follow continuation tokens.
 - Default newly created posts to drafts; require explicit `PUBLISHED` for immediate publication.
 - Require an explicit update mask for announcement patches.
@@ -27,4 +29,4 @@
 - Update Google API dependencies, use the existing SDK validator, and replace source-slicing tests with MCP transport tests.
 - Add CI, security guidance, accurate setup documentation and release readiness checks.
 
-No standalone release or npm publication has been performed. Live write validation remains open. The full MIT text and reconstructed upstream attribution are included in LICENSE and docs/PROVENANCE.md.
+No standalone release or npm publication has been performed. Live write validation remains open. The upstream MIT text and reconstructed attribution are preserved in LICENSES/MIT-upstream.txt and docs/PROVENANCE.md; the root LICENSE describes the commercial terms for maintainer-authored extensions.

@@ -32,7 +32,7 @@
     "model-context-protocol",
     "classroom-api"
   ],
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
     "url": "https://github.com/pengusto/google-classroom-mcp.git"

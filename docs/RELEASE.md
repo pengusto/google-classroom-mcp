@@ -11,7 +11,8 @@ The package version `3.0.0-beta.1` identifies the development line. `private: tr
 
 ## Required before a standalone release
 
-- [x] Include the MIT text and transparent original attribution based on upstream declarations; see PROVENANCE.md.
+- [x] Preserve the upstream MIT text and original attribution in LICENSES/MIT-upstream.txt; document the commercial extension boundary in LICENSE and PROVENANCE.md.
+- [ ] Review the commercial license and rights to the covered extensions before offering paid usage agreements.
 - [ ] Confirm CI passed for the exact commit being released.
 - [ ] Verify Desktop OAuth consent and a read-only call against Google from a fresh setup.
 - [x] In a newly created dedicated test course, material, assignment and announcement drafts were created, scheduled, read back and unscheduled. A real uploaded file was verified on the material. No existing teaching courses were changed.
@@ -26,7 +27,7 @@ Keep real test-course IDs and evidence outside the repository. The included test
 
 ## Repository status
 
-GitHub detachment is complete: this repository is standalone, its MIT license is recognized and its commit history is retained. The original upstream PR remained open at verification. No repository deletion was required.
+GitHub detachment is complete: this repository is standalone and its commit history is retained. From the 2026-10-24 licensing transition, maintainer-authored extensions carry a commercial notice while original upstream portions retain MIT. GitHub may display a custom or unrecognized license label; README and LICENSE document the actual scope. The original upstream PR remained open at verification. No repository deletion was required.
 
 ## Dependency review
 
