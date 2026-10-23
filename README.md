@@ -27,7 +27,7 @@ For **teachers and course organizers with teacher access** who want an assistant
 | Plan publication | Publish explicitly, schedule a draft, reschedule or cancel its schedule |
 | Bring the resources | Drive uploads up to 5 MiB, file/link attachments and existing Slides data |
 
-**Status:** `3.0.0-beta.1` development line, with an open dependency-audit release gate (see [Development](#development)). Install from source; this version is not published to npm and the package is intentionally marked `private: true`. The GitHub repository is public. See [release readiness](docs/RELEASE.md) for recorded checks and open gates.
+**Status:** `3.0.0-beta.1` development line (see [Development](#development) for dependency review). Install from source; this version is not published to npm and the package is intentionally marked `private: true`. The GitHub repository is public. See [release readiness](docs/RELEASE.md) for recorded checks and open gates.
 
 [Quickstart](#quickstart) · [First request](#first-request-start-with-a-read) · [Tool reference](#available-tools) · [Permissions](#permissions-and-limitations) · [Development](#development)
 
@@ -185,7 +185,7 @@ When using this integration, Google Classroom may display a name as **“Unknown
 
 ## Development
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Run `bun run test` and `git diff --check` before submitting changes. CI runs on Node 22 and 24 and includes a redacted Gitleaks scan. High/critical dependency findings fail CI. The [2026-10-22 check](https://github.com/pengusto/google-classroom-mcp/actions/runs/39724177965) reported **five high and one critical advisory** in the existing locked dependency tree: `@modelcontextprotocol/sdk`, `brace-expansion` and `proxy-addr`. This supersedes the earlier moderate-only assessment in release readiness. Dependency remediation and a passing audit remain release gates; passing offline tests does not clear them. The audit reports package findings, not confirmed exploitability of this local stdio setup.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Run `bun run test` and `git diff --check` before submitting changes. CI runs on Node 22 and 24 and includes a redacted Gitleaks scan. High/critical dependency findings fail CI. The 2026-10-23 dependency refresh removes the reported high/critical findings, including the newly reported Zod issue. A full audit still reports one moderate `uuid` finding in Google's local-auth dependency chain; its reviewed usage and the tested versions are documented in [release readiness](docs/RELEASE.md#dependency-review). Audit results are time-specific package checks, not a security guarantee or proof of exploitability.
 
 ## Migrating from 2.x
 
