@@ -12,7 +12,7 @@
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-22%20%7C%2024-339933?logo=nodedotjs&logoColor=white)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: Commercial extensions / MIT upstream](https://img.shields.io/badge/License-Commercial_extensions_%2F_MIT_upstream-blue.svg)](LICENSE)
 ![Tools](https://img.shields.io/badge/MCP_tools-21-8A2BE2)
 [![Checks](https://github.com/pengusto/google-classroom-mcp/actions/workflows/checks.yml/badge.svg?branch=master)](https://github.com/pengusto/google-classroom-mcp/actions/workflows/checks.yml)
 
@@ -39,6 +39,18 @@ flowchart LR
 ```
 
 Your MCP client can call write tools with your account’s permissions. New posts default to drafts; publishing is available when explicitly requested.
+
+## Licensing before use
+
+**Pengusto Commercial License 1.0 for maintainer-authored extensions; MIT for
+original upstream code.** Running the extensions requires a separate paid
+written agreement with the maintainer, including local or self-hosted use by
+educational institutions. Source inspection is permitted. The setup and tool
+examples below describe capabilities; they do not grant usage rights. See
+[LICENSE](LICENSE) for scope and [provenance](docs/PROVENANCE.md) for the upstream
+boundary. Previously granted MIT rights remain valid; this change cannot make
+an earlier MIT copy retroactively chargeable. This distribution is source
+available, not wholly open source.
 
 ## Example workflow
 
@@ -199,4 +211,11 @@ No legacy response adapter is included.
 
 ## License and attribution
 
-Based on [adriasantacreu/google-classroom-mcp](https://github.com/adriasantacreu/google-classroom-mcp). [MIT](LICENSE). Original work by Adrià Santacreu i Giménez and contributors; maintained and extended by Pengusto. See [provenance](docs/PROVENANCE.md) for the source of the license declaration and attribution. This is an independent project, not an official Google product.
+Based on [adriasantacreu/google-classroom-mcp](https://github.com/adriasantacreu/google-classroom-mcp), commit `29c2c2a07670692da28d3fdcee38cb7a54c8f18a`.
+Original work by Adrià Santacreu i Giménez and contributors remains under
+[MIT](LICENSES/MIT-upstream.txt). Pengusto's own extensions in this distribution
+are covered by [Pengusto Commercial License 1.0](LICENSE), subject to existing
+MIT grants for earlier copies. The two licenses apply to different portions;
+they are not alternative licenses for the whole project. See
+[provenance](docs/PROVENANCE.md). This is an independent project, not an official
+Google product.

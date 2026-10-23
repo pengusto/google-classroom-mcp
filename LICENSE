@@ -1,22 +1,65 @@
-MIT License
+Pengusto Commercial License 1.0
+Effective for distributions carrying this notice from 2026-10-24.
 
-Copyright (c) 2026 Adrià Santacreu i Giménez and contributors
-Copyright (c) 2026 Pengusto (modifications)
+Copyright (c) 2026 Pengusto (maintainer-authored extensions).
+All rights reserved except as expressly granted below or by applicable law.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. Scope
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This license applies only to the copyrightable additions and modifications
+made by Pengusto to Google Classroom MCP (the "Extensions"), including their
+source code, compiled counterparts, documentation and tests. It does not
+assert ownership of the Original Upstream Software or third-party material.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The Original Upstream Software is the work in
+adriasantacreu/google-classroom-mcp at commit
+29c2c2a07670692da28d3fdcee38cb7a54c8f18a. It remains available under MIT;
+its notice and full permission text are preserved in LICENSES/MIT-upstream.txt.
+Unmodified upstream portions in mixed files remain under MIT. Dependency
+licenses, third-party notices and the artwork qualifications documented in
+docs/PROVENANCE.md remain applicable. They are not replaced by this license.
+
+2. Source inspection
+
+You may view the Extensions and make copies solely for private source-code
+inspection. Rights to view and fork a public repository under GitHub's terms
+are preserved. These permissions do not authorize running the Extensions,
+processing course data with them, or providing their functionality to others.
+
+3. Paid commercial agreement required
+
+Running or deploying the Extensions, adapting them for use, distributing
+them, or providing access to their functionality requires a separate prior
+written commercial agreement with Pengusto and payment of the fees agreed
+in that agreement. This requirement includes internal use by an organization,
+educational institution or training provider, whether nonprofit or commercial,
+and applies to self-hosted, local and hosted deployments alike.
+
+The agreement must define the licensed organization, permitted functionality,
+users or locations, duration, fees, and any permitted modifications or
+redistribution. No paid usage rights or particular price are implied merely
+by access to this repository. Request an agreement through the maintainer's
+GitHub profile: https://github.com/pengusto. Do not post private contract or
+course data in public issues.
+
+4. Existing rights and upstream use
+
+This notice does not revoke rights previously granted under MIT, including
+rights to earlier copies of Pengusto's changes distributed under MIT. Such
+copies may continue to be used under their original terms. Nor does this
+notice restrict use of the Original Upstream Software under MIT or any
+rights granted by third parties or mandatory applicable law.
+
+5. No implied rights
+
+Except for section 2, no permission to use the Extensions is granted without
+the separate agreement described in section 3. No trademark rights, ownership
+transfer, exclusivity, endorsement, support or service commitment is implied.
+
+6. Disclaimer
+
+To the extent permitted by applicable law, copies provided for source
+inspection are supplied "AS IS", without warranties of any kind. Nothing
+here excludes liability that cannot lawfully be excluded. Warranties,
+liability and service obligations for paid use must be set out in the
+separate commercial agreement.
