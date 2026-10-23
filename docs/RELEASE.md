@@ -60,3 +60,14 @@ CI continues to enforce tests on Node 22/24, unchanged tracked build output and 
 ## Distribution
 
 Start with a GitHub release after the checks above. Before considering npm, choose an available package name and inspect `npm pack --dry-run` plus installation of the packed artifact. Include the resolved license and authentication assets; exclude all credentials and local test evidence. Remove `private: true` only as part of an explicit publication decision.
+
+### 2026-10-24 body-parser security refresh
+
+The lockfile now resolves `body-parser` 2.4.0 instead of 2.3.0 to address
+[GHSA-27r3-jxmh-p828](https://github.com/advisories/GHSA-27r3-jxmh-p828).
+The targeted transitive update stays within the existing dependency ranges;
+only the required nested `iconv-lite` and `qs` resolutions change with it.
+No direct dependency, override or runtime implementation was added. A fresh
+frozen install, all 20 offline tests on Node 22, unchanged tracked build output
+and the full Bun audit pass locally; CI also checks Node 24. The audit reported
+no vulnerabilities at verification time. This is not a blanket security claim.
