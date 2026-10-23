@@ -71,4 +71,3 @@ No direct dependency, override or runtime implementation was added. A fresh
 frozen install, all 20 offline tests on Node 22, unchanged tracked build output
 and the full Bun audit pass locally; CI also checks Node 24. The audit reported
 no vulnerabilities at verification time. This is not a blanket security claim.
-
