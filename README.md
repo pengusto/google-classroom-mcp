@@ -1,5 +1,13 @@
 # Google Classroom MCP
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/classroom-planning-desk-dark-v3.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/images/classroom-planning-desk-v2.png">
+  <img src="docs/images/classroom-planning-desk-v2.png" alt="Google Classroom MCP: a penguin arranges teaching cards connected to a local hub on a planning desk.">
+</picture>
+
+*AI-generated project illustration; [asset provenance](docs/PROVENANCE.md#readme-banner-illustration).*
+
 ## From lesson plan to Classroom draft
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
