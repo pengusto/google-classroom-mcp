@@ -4,7 +4,7 @@
 
 ### Breaking changes
 
-- From distributions carrying the 2026-10-24 notice, apply Pengusto Commercial License 1.0 to maintainer-authored extensions and require a separate paid agreement for their use. Preserve upstream MIT terms and all previously granted MIT rights.
+- From distributions carrying the 2026-10-24 notice, apply Pengusto Commercial License 1.0 to maintainer-authored extensions and require a separate paid agreement for their use. Preserve the original upstream MIT terms.
 
 - Return bounded `{items, nextPageToken}` pages from list and course-search tools instead of arrays. Clients must follow continuation tokens.
 - Default newly created posts to drafts; require explicit `PUBLISHED` for immediate publication.

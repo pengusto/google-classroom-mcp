@@ -27,13 +27,6 @@ is original to the maintainer; a new filename is not proof of authorship.
 Dependencies remain under their own licenses. No Contributor License Agreement
 or assignment of another contributor's rights is implied.
 
-The last master revision before this transition was
-[`f611c8d849940e4c265644ad3c0e147d9981b464`](https://github.com/pengusto/google-classroom-mcp/tree/f611c8d849940e4c265644ad3c0e147d9981b464).
-It and other previously distributed MIT copies retain their existing grants,
-including grants for Pengusto's changes. The commercial notice does not impose
-retroactive fees or prevent lawful use of those copies. Keeping that history
-public continues to make those earlier versions available.
-
 Do not submit new code contributions until licensing terms have been agreed
 with the maintainer. Commercial use needs a separate agreement defining scope,
 duration and fees. Any future paid agreement must also address the maintainer's
