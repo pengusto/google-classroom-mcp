@@ -1,6 +1,6 @@
 # Security
 
-Run this server locally with your own Google OAuth Desktop client. Anyone with access to your MCP client and tokens can act with the granted Google permissions. Exposing stdio through a public network service is not supported.
+Run this server locally with your own Google OAuth Desktop client. Anyone with access to your MCP client and tokens can act with the granted Google permissions. Exposing stdio through a public network service is not supported. Desktop consent uses an ephemeral loopback listener with state and PKCE; the listener is limited to 127.0.0.1 and closes after completion or a five-minute timeout.
 
 Credentials, refresh tokens, student information and course exports must not enter Git or bug reports. Token files use owner-only permissions. Keep backups equally private. Google scope enforcement and course permissions remain authoritative; MCP tool annotations are descriptive, not authorization controls.
 

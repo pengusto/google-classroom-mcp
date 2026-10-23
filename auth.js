@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import { google } from 'googleapis';
-import { authenticate } from '@google-cloud/local-auth';
-import { credentialsPath, tokenPath, scopes, hasRequiredScopes, saveToken, loadAuthClient } from './dist/auth.js';
+import { authorizeDesktop } from './dist/login.js';
+import { createAuthClient, tokenPath, scopes, hasRequiredScopes, saveToken, loadAuthClient } from './dist/auth.js';
 
 async function authorize() {
   if (process.argv.includes('--check')) {
@@ -27,7 +27,7 @@ async function authorize() {
       }
     }
   }
-  const auth = await authenticate({ scopes, keyfilePath: credentialsPath });
+  const auth = await authorizeDesktop(createAuthClient(), scopes);
   if (!hasRequiredScopes(auth.credentials)) throw new Error('Required access was not granted.');
   await google.classroom({ version: 'v1', auth }).courses.list({ pageSize: 1 });
   saveToken(auth.credentials);
@@ -42,6 +42,7 @@ authorize().catch(error => {
     : error instanceof SyntaxError ? 'OAuth file is not valid JSON. Download Desktop credentials again or reauthorize; do not paste secrets into an issue.'
     : error.message === 'Required OAuth scopes are missing.' ? 'Required scopes are missing. Run bun run auth and grant the listed access.'
     : error.message === 'Desktop OAuth credentials are required.' ? 'Use a Desktop app OAuth client, not Web application credentials.'
+    : ['Desktop authorization timed out.', 'Desktop authorization was declined.', 'Could not open the authorization browser.', 'Could not start the local authorization callback.'].includes(error.message) ? `${error.message} Run bun run auth to try again; existing tokens were preserved.`
     : reasons.includes('accessNotConfigured') || reasons.includes('serviceDisabled') ? 'Enable the requested Classroom or Drive API in the Google Cloud project belonging to your OAuth client.'
     : status === 401 || error.response?.data?.error === 'invalid_grant' ? 'OAuth grant expired or revoked. Run bun run auth to reconnect.'
     : status === 403 ? 'Google denied access. Check enabled APIs, granted scopes, consent test-user access and Workspace administrator policy.'
