@@ -68,7 +68,7 @@ The build is included in `bun run test`; the tests still run under Node.js. Duri
 1. Create your own Google Cloud project. Enable the **Classroom**, **Drive** and **Slides** APIs.
 2. Configure the OAuth consent screen and add your Google account as a test user if the app is in testing mode. Your Workspace administrator may restrict access.
 3. Create an OAuth client of type **Desktop app**. Save its downloaded JSON as `credentials.json` in the repository root.
-4. Run `bun run auth`. Complete consent in the browser. The local callback saves `token.json` after verifying access.
+4. Run `bun run auth`. Complete consent in the browser. The loopback callback uses a temporary port on `127.0.0.1`, random state and PKCE; it closes after completion or five minutes. The command saves `token.json` only after verifying access.
 
 Keep both files private. They are ignored by Git. To store them outside the checkout, set `GOOGLE_CREDENTIALS_PATH` and `GOOGLE_TOKEN_PATH` to absolute paths for both authentication and the MCP process. A local `.env` can supply these variables when commands run from the repo root; clients launched elsewhere should pass them explicitly.
 
@@ -185,7 +185,7 @@ When using this integration, Google Classroom may display a name as **“Unknown
 
 ## Development
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Run `bun run test` and `git diff --check` before submitting changes. CI runs on Node 22 and 24 and includes a redacted Gitleaks scan. High/critical dependency findings fail CI. The 2026-10-23 dependency refresh removes the reported high/critical findings, including the newly reported Zod issue. A full audit still reports one moderate `uuid` finding in Google's local-auth dependency chain; its reviewed usage and the tested versions are documented in [release readiness](docs/RELEASE.md#dependency-review). Audit results are time-specific package checks, not a security guarantee or proof of exploitability.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Run `bun run test` and `git diff --check` before submitting changes. CI runs on Node 22 and 24 and includes a redacted Gitleaks scan. The full dependency audit runs in CI. The 2026-10-23 cleanup removes the legacy local-auth helper and its `uuid` dependency chain; `bun audit` reports no findings for the refreshed lockfile. Desktop login uses the Google OAuth client already provided by `googleapis`, with the same credential files, scopes and token persistence. See [release readiness](docs/RELEASE.md#dependency-review) for the review and test limits. Audit results are time-specific package checks, not a security guarantee or proof of exploitability.
 
 ## Migrating from 2.x
 

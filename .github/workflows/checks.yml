@@ -23,7 +23,7 @@ jobs:
       - run: bun ci --ignore-scripts
       - run: bun run test
       - run: git diff --exit-code -- dist
-      - run: bun audit --audit-level=high
+      - run: bun audit
   secrets:
     runs-on: ubuntu-latest
     steps:

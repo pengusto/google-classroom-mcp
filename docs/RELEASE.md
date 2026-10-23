@@ -18,7 +18,7 @@ The package version `3.0.0-beta.1` identifies the development line. `private: tr
 - [x] Upload a small file and verify its attachment by reading the material back.
 - [ ] Verify that attachment with a participant account.
 - [ ] Check visible Classroom order after publication independently of API order.
-- [x] Review moderate dependency findings in `@google-cloud/local-auth`'s gaxios/uuid chain. The latest available local-auth version is 3.0.1 at preparation time; high/critical findings fail CI. Do not force incompatible transitive upgrades merely to clear a report.
+- [x] Remove the legacy local-auth gaxios/uuid dependency chain without forcing incompatible versions; run the full audit in CI. See Dependency review.
 - [ ] Inspect the final source, Git history and distributable files with a redacted secret scanner.
 - [ ] Reconcile release notes against commits; record breaking contracts, tested environments and remaining limitations.
 
@@ -43,13 +43,19 @@ The refreshed lockfile resolves the seven high/critical advisories reproduced fr
 
 Compatible patch updates to `fast-uri` 3.1.9, `hono` 4.13.13 and `ip-address` 10.7.4 also remove their moderate findings. Zod 4 is within both the SDK's and zod-to-json-schema's declared ranges; no override or extra direct dependency is added. The SDK minimum in package.json is raised to 1.32.2.
 
-`bun audit --audit-level=high` passes for this lockfile. A full `bun audit` retains one moderate finding in `uuid` 9.0.1, reached through local-auth's gaxios chain: [GHSA-w5hq-g745-h8pq](https://github.com/advisories/GHSA-w5hq-g745-h8pq). The advisory affects v3/v5/v6 with caller-provided output buffers. The inspected gaxios 6.7.1 callers use `uuid.v4()` without an output buffer for multipart boundaries. No affected call was found in those callers or this project's source. Registry metadata still offers local-auth 3.0.1, google-auth-library 9.15.1 and gaxios 6.7.1 for this chain; a compatible patched chain was not available at review time.
+### Remove the remaining uuid dependency chain
 
-This is a scoped code-path assessment, not a claim that uuid is patched. Keep the remaining warning visible and reassess when Google's dependency chain changes. Do not force an incompatible transitive major version merely to hide the warning.
+The initial security refresh left one moderate `uuid` 9.0.1 finding in `@google-cloud/local-auth` 3.0.1's old Google auth/gaxios chain. Registry metadata still offers no compatible patched update for that chain. Rather than overriding uuid or forcing new transitive majors, the project now removes the sample login helper and reuses the existing OAuth client from `googleapis` for Desktop authorization.
+
+The small local callback binds only `127.0.0.1` on an ephemeral port and validates method, callback authority/path, random state and a single authorization code. It uses S256 PKCE, exchanges at most one code and closes on completion, browser failure, denial or a five-minute deadline. Callback errors contain fixed messages, never Google response details or token values. Token scope checks, Google verification, atomic private token storage and refresh persistence remain in the existing authorization code. Existing credentials and tokens need no migration. The already-used `open` 7.4.2 browser opener becomes a direct dependency; no dependency override or incompatible major is introduced.
+
+The refreshed lockfile contains no uuid package, local-auth helper or old Google auth 9/gaxios 6 chain. A fresh frozen install and full `bun audit` report no findings as of 2026-10-23. CI now runs the full audit, including moderate findings, to prevent the previous gap between a passing high-only gate and the remaining uuid alert.
+
+Twenty offline tests cover the existing MCP/token contracts plus PKCE/state checks, wrong callback authority/path/method, duplicate codes/state, denial, sanitized token/browser failures, listener cleanup, concurrent callbacks and late completion after timeout. Google token exchange and browser launch are mocked; new fresh-consent behavior still requires a separately authorized live check. [Google's Desktop OAuth documentation](https://developers.google.com/identity/protocols/oauth2/native-app) describes the loopback/PKCE flow.
 
 The server uses local stdio and does not configure HTTP transports, proxy trust or an experimental task store. Those reachability limits do not replace patched dependencies. In particular, the SDK's HTTP validation advisory requires additional input/body limits if HTTP support is ever introduced; a version update alone is not sufficient for that deployment mode. Offline tests cover the existing tool, validation, pagination, scheduling, upload, token-refresh and stdio contracts; live Google consent and participant access remain separate checks.
 
-CI continues to enforce tests on Node 22/24, unchanged tracked build output, high/critical audit rejection and a redacted secret scan. Passing CI is a merge gate, not proof of complete security. Audits change as advisories are published; reproduce them from the committed lockfile with `bun ci --ignore-scripts` before assessing an alert, and retain the full audit's lower-severity findings in the review.
+CI continues to enforce tests on Node 22/24, unchanged tracked build output and a redacted secret scan, and now rejects any dependency audit finding. Passing CI is a merge gate, not proof of complete security. Audits change as advisories are published; reproduce them from the committed lockfile with `bun ci --ignore-scripts` before assessing an alert, and retain the full audit's lower-severity findings in the review.
 
 ## Distribution
 
