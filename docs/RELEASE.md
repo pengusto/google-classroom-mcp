@@ -30,9 +30,26 @@ GitHub detachment is complete: this repository is standalone, its MIT license is
 
 ## Dependency review
 
-The moderate Bun audit finding (`uuid`, reached through `gaxios`) represents [GHSA-w5hq-g745-h8pq](https://github.com/advisories/GHSA-w5hq-g745-h8pq). The advisory affects v3/v5/v6 with caller-provided output buffers. The inspected gaxios 6.7.1 callers in local-auth's dependency chain use `uuid.v4()` without an output buffer for multipart boundaries. No affected call was found in those callers or this project's source.
+### 2026-10-23 security refresh
 
-This is a scoped code-path assessment, not a claim that the dependency is patched. Keep the audit warnings visible and reassess when local-auth or its dependency tree changes. Do not force an incompatible transitive major version merely to hide the warning.
+The refreshed lockfile resolves the seven high/critical advisories reproduced from the previous lockfile (including a new Zod finding):
+
+| Package | Previous | Updated | Advisory coverage |
+|---|---|---|---|
+| `@modelcontextprotocol/sdk` | 1.30.0 | 1.32.2 | [OAuth credential binding](https://github.com/advisories/GHSA-6qxp-vccf-f47h), [task session isolation](https://github.com/advisories/GHSA-22jm-h49p-29qw), [HTTP validation resource use](https://github.com/advisories/GHSA-46jr-4wx8-v453) |
+| `brace-expansion` | 2.1.4 | 2.1.7 | [comma recursion](https://github.com/advisories/GHSA-6j4f-fj2g-mc7p), [nested brace recursion](https://github.com/advisories/GHSA-qhr7-859c-m2p7) |
+| `proxy-addr` | 2.0.7 | 2.0.8 | [proxy subnet trust](https://github.com/advisories/GHSA-jqcg-44mw-7w3h) |
+| `zod` | 3.25.76 | 4.6.7 | [oversized collection validation](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) |
+
+Compatible patch updates to `fast-uri` 3.1.9, `hono` 4.13.13 and `ip-address` 10.7.4 also remove their moderate findings. Zod 4 is within both the SDK's and zod-to-json-schema's declared ranges; no override or extra direct dependency is added. The SDK minimum in package.json is raised to 1.32.2.
+
+`bun audit --audit-level=high` passes for this lockfile. A full `bun audit` retains one moderate finding in `uuid` 9.0.1, reached through local-auth's gaxios chain: [GHSA-w5hq-g745-h8pq](https://github.com/advisories/GHSA-w5hq-g745-h8pq). The advisory affects v3/v5/v6 with caller-provided output buffers. The inspected gaxios 6.7.1 callers use `uuid.v4()` without an output buffer for multipart boundaries. No affected call was found in those callers or this project's source. Registry metadata still offers local-auth 3.0.1, google-auth-library 9.15.1 and gaxios 6.7.1 for this chain; a compatible patched chain was not available at review time.
+
+This is a scoped code-path assessment, not a claim that uuid is patched. Keep the remaining warning visible and reassess when Google's dependency chain changes. Do not force an incompatible transitive major version merely to hide the warning.
+
+The server uses local stdio and does not configure HTTP transports, proxy trust or an experimental task store. Those reachability limits do not replace patched dependencies. In particular, the SDK's HTTP validation advisory requires additional input/body limits if HTTP support is ever introduced; a version update alone is not sufficient for that deployment mode. Offline tests cover the existing tool, validation, pagination, scheduling, upload, token-refresh and stdio contracts; live Google consent and participant access remain separate checks.
+
+CI continues to enforce tests on Node 22/24, unchanged tracked build output, high/critical audit rejection and a redacted secret scan. Passing CI is a merge gate, not proof of complete security. Audits change as advisories are published; reproduce them from the committed lockfile with `bun ci --ignore-scripts` before assessing an alert, and retain the full audit's lower-severity findings in the review.
 
 ## Distribution
 
